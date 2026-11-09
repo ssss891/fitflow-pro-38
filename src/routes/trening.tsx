@@ -140,6 +140,11 @@ function NewWorkout() {
               <SelectValue placeholder="Izaberi vežbu" />
             </SelectTrigger>
             <SelectContent>
+              {exercises.length === 0 && (
+                <div className="px-3 py-2 text-sm text-muted-foreground">
+                  Nema vežbi — dodaj sopstvenu ispod.
+                </div>
+              )}
               {exercises.map((e) => (
                 <SelectItem key={e.id} value={e.id}>
                   {e.name} · {e.category}
