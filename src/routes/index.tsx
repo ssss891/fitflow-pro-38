@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: () => getLandingStats(),
+  loader: () => getLandingStats().catch(() => ({ users: 0, workouts: 0, sets: 0 })),
   component: Landing,
 });
 
@@ -48,7 +48,7 @@ const FEATURES = [
 ];
 
 function Landing() {
-  const stats = Route.useLoaderData();
+  const stats = Route.useLoaderData() ?? { users: 0, workouts: 0, sets: 0 };
   return (
     <div className="min-h-screen">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
