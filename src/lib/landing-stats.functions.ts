@@ -7,13 +7,8 @@ export const getLandingStats = createServerFn({ method: "GET" }).handler(async (
     const { count } = await supabaseAdmin.from(table).select("id", { count: "exact", head: true });
     return count ?? 0;
   };
-  // Broje se samo postojeći nalozi (neki stari profili su ostali bez naloga)
-  const countUsers = async () => {
-    const { data } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-    return data?.users.length ?? 0;
-  };
   const [users, workouts, sets] = await Promise.all([
-    countUsers(),
+    count("profiles"),
     count("workouts"),
     count("workout_sets"),
   ]);
