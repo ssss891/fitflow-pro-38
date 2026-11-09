@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  loader: () => getLandingStats().catch(() => ({ users: 0, workouts: 0, sets: 0 })),
+  loader: () => getLandingStats().catch(() => ({ users: 0, workouts: 0, avgMinutes: 0 })),
   component: Landing,
 });
 
@@ -48,7 +48,7 @@ const FEATURES = [
 ];
 
 function Landing() {
-  const stats = Route.useLoaderData() ?? { users: 0, workouts: 0, sets: 0 };
+  const stats = Route.useLoaderData() ?? { users: 0, workouts: 0, avgMinutes: 0 };
   return (
     <div className="min-h-screen">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
@@ -98,7 +98,7 @@ function Landing() {
           {[
             [String(stats.users), "registrovanih vežbača"],
             [String(stats.workouts), "sačuvanih treninga"],
-            [String(stats.sets), "unetih serija"],
+            [`${stats.avgMinutes} min`, "prosečan unos"],
           ].map(([v, l]) => (
             <div key={l} className="surface-card p-4">
               <dt className="text-2xl font-black text-primary sm:text-3xl">{v}</dt>
