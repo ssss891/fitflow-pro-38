@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { getLandingStats } from "@/lib/landing-stats.functions";
 import { Activity, Dumbbell, LineChart, Timer } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getLandingStats(),
   component: Landing,
 });
 
@@ -46,6 +48,7 @@ const FEATURES = [
 ];
 
 function Landing() {
+  const stats = Route.useLoaderData();
   return (
     <div className="min-h-screen">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
@@ -93,9 +96,9 @@ function Landing() {
 
         <dl className="mt-14 grid grid-cols-3 gap-3">
           {[
-            ["12k+", "unetih serija"],
-            ["98%", "vraća se nedeljno"],
-            ["3 min", "prosečan unos"],
+            [String(stats.users), "registrovanih vežbača"],
+            [String(stats.workouts), "sačuvanih treninga"],
+            [String(stats.sets), "unetih serija"],
           ].map(([v, l]) => (
             <div key={l} className="surface-card p-4">
               <dt className="text-2xl font-black text-primary sm:text-3xl">{v}</dt>
